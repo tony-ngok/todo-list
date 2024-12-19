@@ -1,0 +1,17 @@
+<h1>任务清单（To-do list）</h1>
+
+<table>
+  <tr>
+    <th>名称</th>
+    <th>已完成？</th>
+    <th>重要？</th>
+  </tr>
+  
+  <% @todos.each do |todo| %>
+    <tr>
+      <td><%= @todo.name %></td>
+      <td><%= @todo.done %></td>
+      <td><%= @todo.important %></td>
+    </tr>
+  <% end %>
+<table>
