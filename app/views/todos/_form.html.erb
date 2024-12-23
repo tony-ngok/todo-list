@@ -1,7 +1,7 @@
 <%# 若无 url: todos_path，则重定向至空表单 %>
 <%= form_for :todo, url: todos_path do |f| %> 
   <% if @todo.errors.any? %>
-    <h3>存在以下错误：</h3>
+    <h3>存在以下<%= @todo.errors.size %>個错误：</h3>
     <ul>
       <% @todo.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -15,12 +15,12 @@
   </p>
 
   <p>
-    <%= f.label :done, '已完成？' %>
+    <%= f.label :done, '完成？（0：未完成，1：已完成）' %>
     <%= f.text_field :done %>
   </p>
 
   <p>
-    <%= f.label :important, '重要性' %>
+    <%= f.label :important, '重要性（0：普通，1：重要）' %>
     <%= f.text_field :important %>
   </p>
 
