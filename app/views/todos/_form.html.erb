@@ -1,5 +1,4 @@
-<%# 若无 url: todos_path，则重定向至空表单 %>
-<%= form_for :todo, url: todos_path do |f| %> 
+<%= form_for @todo do |f| %> 
   <% if @todo.errors.any? %>
     <h3>存在以下<%= @todo.errors.size %>個错误：</h3>
     <ul>
@@ -25,6 +24,6 @@
   </p>
 
   <p>
-    <%= f.submit "创建事件" %>
+    <%= f.submit "提交事件" %>
   </p>
 <% end %>

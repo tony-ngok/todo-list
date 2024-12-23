@@ -1,0 +1,10 @@
+<h1>修改事件<h1>
+
+<%= render 'form' %>
+
+<%= link_to '删除任务', todo_path(@todo), data: {
+  turbo_method: :delete,
+  turbo_confirm: "删除任务？"
+} %>
+
+<%= link_to '返回...', todos_path %>

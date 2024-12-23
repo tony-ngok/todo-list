@@ -1,25 +1,44 @@
 class TodosController < ApplicationController
-  def index
+  def index # 所有任务视窗
     @todos = Todo.all
   end
 
-  def new
+  # def show # 显示任务视窗
+  #   @todo = Todo.find(params[:id])
+  # end
+
+  def new # 创建任务视窗
     @todo = Todo.new
   end
 
-  def create
+  def edit # 修改任务视窗
+    @todo = Todo.find(params[:id])
+  end
+
+  def create # 创建任务动作
     @todo = Todo.new(todo_params)
 
     if @todo.save
-      redirect_to todos_path # 重定向至首页（若无，则没反应）
+      redirect_to todos_path
     else
       render "new", status: :unprocessable_entity
     end
   end
 
-  def destroy
+  def update # 修改任务动作
+    @todo = Todo.find(params[:id])
+
+    if @todo.update(todo_params)
+      redirect_to todos_path
+    else
+      render "edit", status: :unprocessable_entity
+    end
+  end
+
+  def destroy # 删除任务动作
     @todo = Todo.find(params[:id])
     @todo.destroy
+  
     redirect_to todos_path
   end
 
