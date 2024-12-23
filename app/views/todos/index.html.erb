@@ -1,5 +1,7 @@
 <h1>任务清单（To-do list）</h1>
 
+<%= link_to '新建任务...', new_todo_path %>
+
 <table>
   <tr>
     <th>名称</th>
@@ -15,9 +17,10 @@
       <td><%= todo.done %></td>
       <td><%= todo.important %></td>
       <td><%= '改' %></td>
-      <td><%= '删' %></td>
+      <td><%= link_to '删', todo_path(todo), data: {
+        turbo_method: :delete,
+        turbo_confirm: "删除任务？"
+      } %></td>
     </tr>
   <% end %>
 <table>
-
-<%= link_to '新建任务...', new_todo_path %>
