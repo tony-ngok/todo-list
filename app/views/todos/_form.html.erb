@@ -1,8 +1,30 @@
-<% form_for :todo do |f| %>
+<%# 若无 url: todos_path，则重定向至空表单 %>
+<%= form_for :todo, url: todos_path do |f| %> 
+  <% if @todo.errors.any? %>
+    <h3>存在以下错误：</h3>
+    <ul>
+      <% @todo.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
   <p>
     <%= f.label :name, '事件名' %>
     <%= f.text_field :name %>
   </p>
 
-  
+  <p>
+    <%= f.label :done, '已完成？' %>
+    <%= f.text_field :done %>
+  </p>
+
+  <p>
+    <%= f.label :important, '重要性' %>
+    <%= f.text_field :important %>
+  </p>
+
+  <p>
+    <%= f.submit "创建事件" %>
+  </p>
 <% end %>
