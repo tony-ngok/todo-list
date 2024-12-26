@@ -14,13 +14,13 @@
   </p>
 
   <p>
-    <%= f.label :done, '完成？（0：未完成，1：已完成）' %>
-    <%= f.text_field :done %>
+    <%= f.label :done, '完成？' %>
+    <%= check_box "todo", "done" %>
   </p>
 
   <p>
-    <%= f.label :important, '重要性（0：普通，1：重要）' %>
-    <%= f.text_field :important %>
+    <%= f.label :important, '重要' %>
+    <%= check_box "todo", "important" %>
   </p>
 
   <p>

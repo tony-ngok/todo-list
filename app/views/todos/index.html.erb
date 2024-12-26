@@ -14,8 +14,16 @@
   <% @todos.each do |todo| %>
     <tr>
       <td><%= todo.name %></td>
-      <td><%= todo.done %></td>
-      <td><%= todo.important %></td>
+      <td>
+        <% if todo.done == 1 %>
+          <%= '✅' %>
+        <% end %>
+      </td>
+      <td>
+        <% if todo.important == 1 %>
+          <%= '⭐' %>
+        <% end %>
+      </td>
       <td><%= link_to '改', edit_todo_path(todo) %></td>
       <td><%= link_to '删', todo_path(todo), data: {
         turbo_method: :delete,
