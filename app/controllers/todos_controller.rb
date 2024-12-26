@@ -1,6 +1,6 @@
 class TodosController < ApplicationController
   def index # 所有任务视窗
-    @todos = Todo.all
+    @todos = Todo.order(:done, important: :desc)
   end
 
   # def show # 显示任务视窗

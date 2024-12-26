@@ -2,10 +2,10 @@
 
 <%= link_to '新建任务...', new_todo_path %>
 
-<table>
+<table id="todo_table">
   <tr>
     <th>名称</th>
-    <th>已完成？</th>
+    <th>完成？</th>
     <th>重要？</th>
     <th>修改</th>
     <th>删除</th>
@@ -32,3 +32,5 @@
     </tr>
   <% end %>
 <table>
+
+<%= stylesheet_link_tag "index" %>
