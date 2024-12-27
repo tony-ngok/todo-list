@@ -12,8 +12,16 @@
   </tr>
   
   <% @todos.each do |todo| %>
-    <tr>
-      <td><%= todo.name %></td>
+    <tr
+      <% if (todo.done == 1) && (todo.important == 1) %>
+        <%= "class=done-imp" %>
+      <% elsif todo.done == 1 %>
+        <%= "class=done" %>
+      <% elsif todo.important == 1 %>
+        <%= "class=imp" %>
+      <% end %>
+    >
+      <td class="name"><%= todo.name %></td>
       <td>
         <% if todo.done == 1 %>
           <%= '✅' %>

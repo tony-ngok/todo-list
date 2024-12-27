@@ -2,3 +2,17 @@ table, th, td {
     border: 1px solid;
     border-collapse: collapse;
 }
+
+tr.done-imp, tr.done {
+    background-color: skyblue;
+}
+
+tr.done-imp > td.name, tr.done > td.name {
+    font-style: italic;
+    text-decoration: line-through;
+    color: grey
+}
+
+tr.imp > td.name {
+    font-weight: bold;
+}
