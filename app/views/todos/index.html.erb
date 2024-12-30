@@ -2,43 +2,54 @@
 
 <%= link_to '新建任务...', new_todo_path %>
 
-<table id="todo_table">
-  <tr>
-    <th>名称</th>
-    <th>完成？</th>
-    <th>重要？</th>
-    <th>修改</th>
-    <th>删除</th>
-  </tr>
-  
-  <% @todos.each do |todo| %>
-    <tr
-      <% if (todo.done == 1) && (todo.important == 1) %>
-        <%= "class=done-imp" %>
-      <% elsif todo.done == 1 %>
-        <%= "class=done" %>
-      <% elsif todo.important == 1 %>
-        <%= "class=imp" %>
-      <% end %>
-    >
-      <td class="name"><%= todo.name %></td>
-      <td>
-        <% if todo.done == 1 %>
-          <%= '✅' %>
-        <% end %>
-      </td>
-      <td>
-        <% if todo.important == 1 %>
-          <%= '⭐' %>
-        <% end %>
-      </td>
-      <td><%= link_to '改', edit_todo_path(todo) %></td>
-      <td><%= link_to '删', todo_path(todo), data: {
-        turbo_method: :delete,
-        turbo_confirm: "删除任务？"
-      } %></td>
+<%= form_with url: destroy_many_todos_path, method: 'delete', data: {
+  turbo_confirm: '是否删除选中任务？'
+} do %>
+  <%= submit_tag "删除选中任务..." %>
+
+  <table id="todo_table">
+    <tr>
+      <th></th>
+      <th>名称</th>
+      <th>完成？</th>
+      <th>重要？</th>
+      <th>修改</th>
+      <th>删除</th>
     </tr>
-  <% end %>
-<table>
+    
+    <% @todos.each do |todo| %>
+      <tr
+        <% if (todo.done == 1) && (todo.important == 1) %>
+          <%= "class=done-imp" %>
+        <% elsif todo.done == 1 %>
+          <%= "class=done" %>
+        <% elsif todo.important == 1 %>
+          <%= "class=imp" %>
+        <% end %>
+      >
+
+        <%# ids[]：数组类型的参数 %>
+        <td><%= check_box_tag "ids[]", todo.id, false %></td>
+
+        <td class="name"><%= todo.name %></td>
+        <td>
+          <% if todo.done == 1 %>
+            <%= '✅' %>
+          <% end %>
+        </td>
+        <td>
+          <% if todo.important == 1 %>
+            <%= '⭐' %>
+          <% end %>
+        </td>
+        <td><%= link_to '修改', edit_todo_path(todo) %></td>
+        <td><%= link_to '删除', todo_path(todo), data: {
+          turbo_method: :delete,
+          turbo_confirm: "删除任务？"
+        } %></td>
+      </tr>
+    <% end %>
+  <table>
+<% end %>
 
 <%= stylesheet_link_tag "index" %>

@@ -42,6 +42,13 @@ class TodosController < ApplicationController
     redirect_to todos_path
   end
 
+  def destroy_many
+    @todos_delete = Todo.where(id: params[:ids])
+    @todos_delete.destroy_all
+
+    redirect_to todos_path
+  end
+
   private
     def todo_params
       params.require(:todo).permit(:name, :done, :important)
