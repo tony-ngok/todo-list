@@ -2,10 +2,15 @@
 
 <%= link_to '新建任务...', new_todo_path %>
 
-<%= form_with url: destroy_many_todos_path, method: 'delete', data: {
-  turbo_confirm: '是否删除选中任务？'
-} do %>
-  <%= submit_tag "删除选中任务..." %>
+<%= form_with url: destroy_many_todos_path, method: 'delete' do %>
+  <div id="buttons">
+    <%# 表单内提交按纽设定 name 值，将额外参数传到控制器 %>
+    <%= submit_tag "标记为重要", name: "importants" %>
+    <%= submit_tag "除去重要标记", name: "unimportants" %>
+    <%= submit_tag "删除选中任务", data: {
+      turbo_confirm: '是否删除选中任务？'
+    } %>
+  </div>
 
   <table id="todo_table">
     <tr>

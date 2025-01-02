@@ -37,14 +37,14 @@ class TodosController < ApplicationController
 
   def important_many
     @importants = Todo.where(id: params[:ids])
-    @important.update_all(important: 1)
+    @importants.update_all(important: 1)
 
     redirect_to todos_path
   end
 
   def unimportant_many
-    @importants = Todo.where(id: params[:ids])
-    @important.update_all(important: 0)
+    @unimportants = Todo.where(id: params[:ids])
+    @unimportants.update_all(important: 0)
 
     redirect_to todos_path
   end
@@ -57,10 +57,16 @@ class TodosController < ApplicationController
   end
 
   def destroy_many
-    @todos_delete = Todo.where(id: params[:ids])
-    @todos_delete.destroy_all
+    if params[:importants] # 参数来自由视窗提交按钮内 name 值
+      important_many
+    elsif params[:unimportants]
+      unimportant_many
+    else
+      @todos_delete = Todo.where(id: params[:ids])
+      @todos_delete.destroy_all
 
-    redirect_to todos_path
+      redirect_to todos_path
+    end
   end
 
   private
