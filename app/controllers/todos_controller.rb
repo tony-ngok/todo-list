@@ -35,6 +35,20 @@ class TodosController < ApplicationController
     end
   end
 
+  def important_many
+    @importants = Todo.where(id: params[:ids])
+    @important.update_all(important: 1)
+
+    redirect_to todos_path
+  end
+
+  def unimportant_many
+    @importants = Todo.where(id: params[:ids])
+    @important.update_all(important: 0)
+
+    redirect_to todos_path
+  end
+
   def destroy # 删除任务动作
     @todo = Todo.find(params[:id])
     @todo.destroy
