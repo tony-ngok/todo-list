@@ -1,0 +1,27 @@
+<h1>任務清单（To-do list）</h1>
+<h2>自定義任務表</h2>
+
+<div id="links">
+  <%= link_to '新建列表...', new_todo_path %>
+  <%= link_to '回到主页...', todos_path %>
+</div>
+
+<table id="todo_table">
+  <tr>
+    <th>列表名</th>
+    <th>列表更新时间</th>
+    <th>查看列表</th>
+    <th>重命名列表</th>
+    <th>删除列表</th>
+  </tr>
+  
+  <% @listes.each do |liste| %>
+    <tr>
+      <td><%= liste.listname %></td>
+      <td><%= liste.updated_at %></td>
+      <td><%= link_to "查看...", liste_path(liste) %></td>
+      <td><%= link_to "改名...", liste_path(liste) %></td>
+      <td><%= "消除" %></td>
+    </tr>
+  <% end %>
+</table>

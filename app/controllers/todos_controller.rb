@@ -1,6 +1,13 @@
 class TodosController < ApplicationController
+  # 过滤器：仅在该控制器 index 动作之前运行
+  before_action :with_list, only: ["index"]
+
   def index # 所有任务视窗
-    @todos = Todo.where(liste: nil).order(:done, important: :desc)
+    if @liste
+      @todos = @liste.todos.order(:done, important: :desc)
+    else
+      @todos = Todo.where(liste_id: nil).order(:done, important: :desc)
+    end
   end
 
   # def show # 显示任务视窗
@@ -68,6 +75,14 @@ class TodosController < ApplicationController
       redirect_to todos_path
     end
   end
+
+  private
+    def with_list
+      # 根据列表 id，判断当前视窗是否属于一个列表
+      # find 方法不允许空 id，所以用 find_by(id:)
+      # find_by(id: nil) -> nil
+      @liste = Liste.find_by(id: params[:liste_id])
+    end
 
   private
     def todo_params
