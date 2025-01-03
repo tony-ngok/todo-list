@@ -10,7 +10,7 @@ class ListesController < ApplicationController
   end
 
   def new
-    
+    @liste = Liste.new
   end
 
   def edit

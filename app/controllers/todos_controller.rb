@@ -1,6 +1,6 @@
 class TodosController < ApplicationController
-  # 过滤器：仅在该控制器 index 动作之前运行
-  before_action :with_list, only: ["index"]
+  # 过滤器：检查是否有上级 Liste 实例
+  before_action :with_list
 
   def index # 所有任务视窗
     if @liste
@@ -26,7 +26,11 @@ class TodosController < ApplicationController
     @todo = Todo.new(todo_params)
 
     if @todo.save
-      redirect_to todos_path
+      if @liste
+        redirect_to liste_todos_path(@liste)
+      else
+        redirect_to todos_path
+      end
     else
       render "new", status: :unprocessable_entity
     end
@@ -86,6 +90,6 @@ class TodosController < ApplicationController
 
   private
     def todo_params
-      params.require(:todo).permit(:name, :done, :important)
+      params.require(:todo).permit(:name, :done, :important, :liste_id)
     end
 end

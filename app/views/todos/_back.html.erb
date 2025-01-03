@@ -1,0 +1,5 @@
+<% if @liste %>
+  <%= link_to '返回...', liste_todos_path(@liste) %>
+<% else %>
+  <%= link_to '返回主页...', todos_path %>
+<% end %>
