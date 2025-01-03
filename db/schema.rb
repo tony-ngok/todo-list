@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_03_141241) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_03_144631) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,9 +26,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_03_141241) do
     t.integer "important"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "l_id"
-    t.index ["l_id"], name: "index_todos_on_l_id"
+    t.integer "liste_id"
+    t.index ["liste_id"], name: "index_todos_on_liste_id"
   end
 
-  add_foreign_key "todos", "listes", column: "l_id"
+  add_foreign_key "todos", "listes"
 end
