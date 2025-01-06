@@ -1,6 +1,6 @@
 class TodosController < ApplicationController
-  # 过滤器：检查是否有上级 Liste 实例
-  before_action :with_list
+  # 过滤器
+  before_action :with_list, only: [:index, :new, :create] # 检查是否有上级 Liste 实例
 
   def index # 所有任务视窗
     if @liste
@@ -15,7 +15,11 @@ class TodosController < ApplicationController
   # end
 
   def new # 创建任务视窗
-    @todo = Todo.new
+    if @liste
+      @todo = @liste.todos.build # 在父模型实例 Liste 的上下文创建
+    else
+      @todo = Todo.new
+    end
   end
 
   def edit # 修改任务视窗
@@ -23,14 +27,14 @@ class TodosController < ApplicationController
   end
 
   def create # 创建任务动作
-    @todo = Todo.new(todo_params)
+    if @liste
+      @todo = @liste.todos.build(todo_params)
+    else
+      @todo = Todo.new(todo_params)
+    end
 
     if @todo.save
-      if @liste
-        redirect_to liste_todos_path(@liste)
-      else
-        redirect_to todos_path
-      end
+      back(@liste)
     else
       render "new", status: :unprocessable_entity
     end
@@ -38,9 +42,8 @@ class TodosController < ApplicationController
 
   def update # 修改任务动作
     @todo = Todo.find(params[:id])
-
     if @todo.update(todo_params)
-      redirect_to todos_path
+      back(@todo.liste)
     else
       render "edit", status: :unprocessable_entity
     end
@@ -49,22 +52,19 @@ class TodosController < ApplicationController
   def important_many
     @importants = Todo.where(id: params[:ids])
     @importants.update_all(important: 1)
-
-    redirect_to todos_path
+    back(@importants.first.liste)
   end
 
   def unimportant_many
     @unimportants = Todo.where(id: params[:ids])
     @unimportants.update_all(important: 0)
-
-    redirect_to todos_path
+    back(@unimportants.first.liste)
   end
 
   def destroy # 删除任务动作
     @todo = Todo.find(params[:id])
     @todo.destroy
-  
-    redirect_to todos_path
+    back(@todo.liste)
   end
 
   def destroy_many
@@ -75,8 +75,7 @@ class TodosController < ApplicationController
     else
       @todos_delete = Todo.where(id: params[:ids])
       @todos_delete.destroy_all
-
-      redirect_to todos_path
+      back(@todos_delete.first.liste)
     end
   end
 
@@ -88,7 +87,14 @@ class TodosController < ApplicationController
       @liste = Liste.find_by(id: params[:liste_id])
     end
 
-  private
+    def back(l)
+      if l
+        redirect_to liste_todos_path(l)
+      else
+        redirect_to todos_path
+      end
+    end
+
     def todo_params
       params.require(:todo).permit(:name, :done, :important, :liste_id)
     end

@@ -5,11 +5,12 @@
   <h2>首頁</h2>
 <% end %>
 
-<%= link_to '新建任务...', new_todo_path %>
 <% if @liste %>
+  <%= link_to '新建任务...', new_liste_todo_path %>
   <%= link_to '返回...', listes_path %>
   <%= link_to '回到主页...', todos_path %>
 <% else %>
+  <%= link_to '新建任务...', new_todo_path %>
   <%= link_to '查看自定义任务表...', listes_path %>
 <% end %>
 
