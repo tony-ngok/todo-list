@@ -74,8 +74,9 @@ class TodosController < ApplicationController
       unimportant_many
     else
       @todos_delete = Todo.where(id: params[:ids])
+      @todos_liste = @todos_delete.first.liste
       @todos_delete.destroy_all
-      back(@todos_delete.first.liste)
+      back(@todos_liste)
     end
   end
 

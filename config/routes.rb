@@ -7,13 +7,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :listes do
-    resources :todos do
-      collection do
-        delete 'destroy_many'
-        patch 'important_many'
-        patch 'unimportant_many'
-      end
-    end
+    resources :todos, only: [:index, :new, :create]
   end
 
   resources :todos do
