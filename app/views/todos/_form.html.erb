@@ -2,8 +2,6 @@
   <h2>列表：<%= @liste.listname %></h2>
 <% end %>
 
-<%= @liste %>
-
 <%# 表单：若模型存在，则使用 PATCH 方法，反之使用 POST 方法 %>
 <%= form_with model: @todo do |f| %> 
   <% if @todo.errors.any? %>

@@ -27,6 +27,7 @@ class TodosController < ApplicationController
   end
 
   def create # 创建任务动作
+    puts @liste
     if @liste
       @todo = @liste.todos.build(todo_params)
     else
@@ -51,14 +52,18 @@ class TodosController < ApplicationController
 
   def important_many
     @importants = Todo.where(id: params[:ids])
-    @importants.update_all(important: 1)
-    back(@importants.first.liste)
+    if !@importants.empty?
+      @importants.update_all(important: 1)
+      back(@importants.first.liste)
+    end
   end
 
   def unimportant_many
     @unimportants = Todo.where(id: params[:ids])
-    @unimportants.update_all(important: 0)
-    back(@unimportants.first.liste)
+    if !@unimportants.empty?
+      @unimportants.update_all(important: 0)
+      back(@unimportants.first.liste)
+    end
   end
 
   def destroy # 删除任务动作
@@ -74,9 +79,11 @@ class TodosController < ApplicationController
       unimportant_many
     else
       @todos_delete = Todo.where(id: params[:ids])
-      @todos_liste = @todos_delete.first.liste
-      @todos_delete.destroy_all
-      back(@todos_liste)
+      if !@todos_delete.empty?
+        @todos_liste = @todos_delete.first.liste
+        @todos_delete.destroy_all
+        back(@todos_liste)
+      end
     end
   end
 
@@ -97,6 +104,6 @@ class TodosController < ApplicationController
     end
 
     def todo_params
-      params.require(:todo).permit(:name, :done, :important, :liste_id)
+      params.require(:todo).permit(:name, :done, :important)
     end
 end
