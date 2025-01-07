@@ -60,7 +60,7 @@
           <% end %>
         </td>
         <td><%= todo.updated_at %></td>
-        <td><%= link_to '修改...', edit_todo_path(todo) %></td>
+        <td><%= link_to '修改...', edit_has_liste(@liste, todo) %></td>
         <td><%= link_to '删除', todo_path(todo), data: {
           turbo_method: :delete,
           turbo_confirm: "删除任务？"

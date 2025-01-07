@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :todos, only: [:index, :new, :create, :edit, :update]
   end
 
-  resources :todos do
+  resources :todos, except: [:show] do
     # 添加集合路由：让 Rails 识别以下 /todos/... 路径上的请求，并映射到 Todos 控制器的相应动作上
     collection do
       delete 'destroy_many'

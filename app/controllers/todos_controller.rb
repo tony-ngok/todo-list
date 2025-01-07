@@ -1,6 +1,6 @@
 class TodosController < ApplicationController
   # 过滤器
-  before_action :with_list, only: [:index, :new, :create] # 检查是否有上级 Liste 实例
+  before_action :with_list, only: [:index, :new, :create, :edit, :update] # 检查是否有上级 Liste 实例
 
   def index # 所有任务视窗
     if @liste
@@ -9,10 +9,6 @@ class TodosController < ApplicationController
       @todos = Todo.where(liste_id: nil).order(:done, important: :desc)
     end
   end
-
-  # def show # 显示任务视窗
-  #   @todo = Todo.find(params[:id])
-  # end
 
   def new # 创建任务视窗
     if @liste
@@ -23,16 +19,15 @@ class TodosController < ApplicationController
   end
 
   def edit # 修改任务视窗
-    @todo = Todo.find(params[:id])
+    if @liste
+      @todo = @liste.todos.find(params[:id])
+    else
+      @todo = Todo.find(params[:id])
+    end
   end
 
   def create # 创建任务动作
-    if @liste
-      @todo = @liste.todos.build(todo_params)
-    else
-      @todo = Todo.new(todo_params)
-    end
-
+    find_todo(@liste)
     if @todo.save
       back(@liste)
     else
@@ -41,7 +36,7 @@ class TodosController < ApplicationController
   end
 
   def update # 修改任务动作
-    @todo = Todo.find(params[:id])
+    find_todo(@liste)
     if @todo.update(todo_params)
       back(@todo.liste)
     else
@@ -92,6 +87,14 @@ class TodosController < ApplicationController
       # find 方法不允许空 id，所以用 find_by(id:)
       # find_by(id: nil) -> nil
       @liste = Liste.find_by(id: params[:liste_id])
+    end
+
+    def find_todo(l)
+      if @liste
+        @todo = @liste.todos.find(params[:id])
+      else
+        @todo = Todo.find(params[:id])
+      end
     end
 
     def back(l)
