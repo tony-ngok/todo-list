@@ -27,7 +27,6 @@ class TodosController < ApplicationController
   end
 
   def create # 创建任务动作
-    puts @liste
     if @liste
       @todo = @liste.todos.build(todo_params)
     else
