@@ -7,6 +7,10 @@
 
 <% if @liste %>
   <%= link_to '新建任务...', new_liste_todo_path %>
+  <%= link_to '消除本列表', liste_path(@liste), data: {
+    turbo_method: :delete,
+    turbo_confirm: "删除列表？"
+  } %>
   <%= link_to '返回...', listes_path %>
   <%= link_to '回到主页...', todos_path %>
 <% else %>

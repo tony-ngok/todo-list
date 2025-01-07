@@ -1,3 +1,21 @@
+<%= form_with model: @liste do |f| %>
+  <% if @liste.errors.any? %>
+    <h3>存在以下<%= @liste.errors.size %>個错误：</h3>
+    <ul>
+      <% @liste.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  <% end %>
 
+  <p>
+    <%= f.label :listname, '列表名' %>
+    <%= f.text_field :listname %>
+  </p>
+
+  <p>
+    <%= f.submit "提交列表" %>
+  </p>
+<% end %>
 
 <%= link_to '返回...', listes_path %>

@@ -27,11 +27,16 @@ class TodosController < ApplicationController
   end
 
   def create # 创建任务动作
-    find_todo(@liste)
+    if @liste
+      @todo = @liste.todos.build(todo_params)
+    else
+      @todo = Todo.new(@todo_params)
+    end
+
     if @todo.save
       back(@liste)
     else
-      render "new", status: :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
   end
 
