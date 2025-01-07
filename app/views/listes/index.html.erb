@@ -19,7 +19,7 @@
     <tr>
       <td><%= liste.listname %></td>
       <td><%= liste.updated_at %></td>
-      <td><%= link_to "查看...", liste_path(liste) %></td>
+      <td><%= link_to "详细...", liste_path(liste) %></td>
       <td><%= link_to "改名...", edit_liste_path(liste) %></td>
       <td><%= link_to "消除", liste_path(liste), data: {
         turbo_method: :delete,
