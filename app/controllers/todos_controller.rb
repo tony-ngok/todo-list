@@ -32,7 +32,7 @@ class TodosController < ApplicationController
     if @liste
       @todo = @liste.todos.build(todo_params)
     else
-      @todo = current_user.todos.new(@todo_params)
+      @todo = current_user.todos.build(todo_params)
     end
 
     if @todo.save
@@ -93,7 +93,7 @@ class TodosController < ApplicationController
       # 根据列表 id，判断当前视窗是否属于一个列表
       # find 方法不允许空 id，所以用 find_by(id:)
       # find_by(id: nil) -> nil
-      @liste = current_user.todos.find_by(id: params[:liste_id])
+      @liste = current_user.listes.find_by(id: params[:liste_id])
     end
 
     def find_todo(l)

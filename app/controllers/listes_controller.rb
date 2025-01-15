@@ -11,7 +11,7 @@ class ListesController < ApplicationController
   end
 
   def new
-    @liste = current_user.listes.new
+    @liste = current_user.listes.build
   end
 
   def edit
