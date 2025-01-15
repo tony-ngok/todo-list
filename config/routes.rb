@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'welcome/index'
   devise_for :users
   get 'todos/index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -20,7 +21,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root "todos#index"
+  root "welcome#index"
 
   # Defines the root path route ("/")
   # root "posts#index"
