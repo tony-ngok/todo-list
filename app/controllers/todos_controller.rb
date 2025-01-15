@@ -1,5 +1,6 @@
 class TodosController < ApplicationController
   before_action :authenticate_user! # 确保用户已登入
+  load_and_authorize_resource
 
   # 过滤器
   before_action :with_list, only: [:index, :new, :create, :edit, :update] # 检查是否有上级 Liste 实例

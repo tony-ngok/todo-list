@@ -34,6 +34,7 @@
       <th>名称</th>
       <th>完成？</th>
       <th>重要？</th>
+      <th>作者</th>
       <th>更新时间</th>
       <th>修改</th>
       <th>删除</th>
@@ -63,6 +64,7 @@
             <%= '⭐' %>
           <% end %>
         </td>
+        <td><%= todo.user.email %></td>
         <td><%= todo.updated_at %></td>
         <td><%= link_to '修改...', edit_has_liste(@liste, todo) %></td>
         <td><%= link_to '删除', todo_path(todo), data: {

@@ -1,5 +1,7 @@
 class ListesController < ApplicationController
   before_action :authenticate_user! # 确保用户已登入
+  load_and_authorize_resource
+
   before_action :set_liste, only: [:show]
 
   def index
