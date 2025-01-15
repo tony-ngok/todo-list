@@ -32,7 +32,7 @@ class TodosController < ApplicationController
   def create # 创建任务动作
     if @liste
       # https://stackoverflow.com/questions/52488942/user-must-exist-in-rails-5
-      # 不用 .merge，就带不上 user_id？
+      # 不强行用 .merge，就带不上 user_id
       @todo = @liste.todos.build(todo_params.merge(user_id: current_user.id))
     else
       @todo = current_user.todos.build(todo_params)
