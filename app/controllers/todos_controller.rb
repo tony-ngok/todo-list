@@ -1,4 +1,6 @@
 class TodosController < ApplicationController
+  before_action :authenticate_user! # 确保用户已登入
+
   # 过滤器
   before_action :with_list, only: [:index, :new, :create, :edit, :update] # 检查是否有上级 Liste 实例
 
@@ -6,7 +8,7 @@ class TodosController < ApplicationController
     if @liste
       @todos = @liste.todos.order(:done, important: :desc)
     else
-      @todos = Todo.where(liste_id: nil).order(:done, important: :desc)
+      @todos = current_user.todos.where(liste_id: nil).order(:done, important: :desc)
     end
   end
 
@@ -14,7 +16,7 @@ class TodosController < ApplicationController
     if @liste
       @todo = @liste.todos.build # 在父模型实例 Liste 的上下文创建
     else
-      @todo = Todo.new
+      @todo = current_user.todos.build
     end
   end
 
@@ -22,7 +24,7 @@ class TodosController < ApplicationController
     if @liste
       @todo = @liste.todos.find(params[:id])
     else
-      @todo = Todo.find(params[:id])
+      @todo = current_user.todos.find(params[:id])
     end
   end
 
@@ -30,7 +32,7 @@ class TodosController < ApplicationController
     if @liste
       @todo = @liste.todos.build(todo_params)
     else
-      @todo = Todo.new(@todo_params)
+      @todo = current_user.todos.new(@todo_params)
     end
 
     if @todo.save
@@ -50,7 +52,7 @@ class TodosController < ApplicationController
   end
 
   def important_many
-    @importants = Todo.where(id: params[:ids])
+    @importants = current_user.todos.where(id: params[:ids])
     if !@importants.empty?
       @importants.update_all(important: 1)
       back(@importants.first.liste)
@@ -58,7 +60,7 @@ class TodosController < ApplicationController
   end
 
   def unimportant_many
-    @unimportants = Todo.where(id: params[:ids])
+    @unimportants = current_user.todos.where(id: params[:ids])
     if !@unimportants.empty?
       @unimportants.update_all(important: 0)
       back(@unimportants.first.liste)
@@ -66,7 +68,7 @@ class TodosController < ApplicationController
   end
 
   def destroy # 删除任务动作
-    @todo = Todo.find(params[:id])
+    @todo = current_user.todos.find(params[:id])
     @todo.destroy
     back(@todo.liste)
   end
@@ -77,7 +79,7 @@ class TodosController < ApplicationController
     elsif params[:unimportants]
       unimportant_many
     else
-      @todos_delete = Todo.where(id: params[:ids])
+      @todos_delete = current_user.todos.where(id: params[:ids])
       if !@todos_delete.empty?
         @todos_liste = @todos_delete.first.liste
         @todos_delete.destroy_all
@@ -91,14 +93,14 @@ class TodosController < ApplicationController
       # 根据列表 id，判断当前视窗是否属于一个列表
       # find 方法不允许空 id，所以用 find_by(id:)
       # find_by(id: nil) -> nil
-      @liste = Liste.find_by(id: params[:liste_id])
+      @liste = current_user.todos.find_by(id: params[:liste_id])
     end
 
     def find_todo(l)
       if @liste
         @todo = @liste.todos.find(params[:id])
       else
-        @todo = Todo.find(params[:id])
+        @todo = current_user.todos.find(params[:id])
       end
     end
 
