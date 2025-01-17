@@ -1,8 +1,11 @@
 class ListesController < ApplicationController
+  before_action :authenticate_user! # 确保用户已登入
+  load_and_authorize_resource
+
   before_action :set_liste, only: [:show]
 
   def index
-    @listes = Liste.all
+    @listes = current_user.listes
   end
 
   def show
@@ -10,15 +13,15 @@ class ListesController < ApplicationController
   end
 
   def new
-    @liste = Liste.new
+    @liste = current_user.listes.build
   end
 
   def edit
-    @liste = Liste.find(params[:id])
+    @liste = current_user.listes.find(params[:id])
   end
 
   def create
-    @liste = Liste.new(params.require(:liste).permit(:listname))
+    @liste = current_user.listes.build(liste_params)
     if @liste.save
       redirect_to listes_path
     else
@@ -27,8 +30,8 @@ class ListesController < ApplicationController
   end
 
   def update
-    @liste = Liste.find(params[:id])
-    if @liste.update(params.require(:liste).permit(:listname))
+    @liste = current_user.listes.find(params[:id])
+    if @liste.update(liste_params)
       redirect_to listes_path
     else
       render :new, status: :unprocessable_entity
@@ -36,13 +39,17 @@ class ListesController < ApplicationController
   end
 
   def destroy
-    @liste = Liste.find(params[:id])
+    @liste = current_user.listes.find(params[:id])
     @liste.destroy
     redirect_to listes_path
   end
 
   private
     def set_liste
-      @liste = Liste.find(params[:id])
+      @liste = current_user.listes.find(params[:id])
+    end
+
+    def liste_params
+      params.require(:liste).permit(:listname)
     end
 end

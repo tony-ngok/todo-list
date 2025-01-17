@@ -1,4 +1,5 @@
 class Todo < ApplicationRecord
+  belongs_to :user
   belongs_to :liste, optional: true
 
   # https://ruby-china.github.io/rails-guides/active_record_validations.html

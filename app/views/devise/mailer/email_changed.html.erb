@@ -1,0 +1,7 @@
+<p>您好，<%= @email %></p>
+
+<% if @resource.try(:unconfirmed_email?) %>
+  <p>您的 Email 将更改为 <%= @resource.unconfirmed_email %></p>
+<% else %>
+  <p>您的 Email 已更改为 <%= @resource.email %></p>
+<% end %>
