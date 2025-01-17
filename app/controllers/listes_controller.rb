@@ -21,7 +21,7 @@ class ListesController < ApplicationController
   end
 
   def create
-    @liste = current_user.listes.build(params.require(:liste).permit(:listname))
+    @liste = current_user.listes.build(liste_params)
     if @liste.save
       redirect_to listes_path
     else
@@ -31,7 +31,7 @@ class ListesController < ApplicationController
 
   def update
     @liste = current_user.listes.find(params[:id])
-    if @liste.update(params.require(:liste).permit(:listname))
+    if @liste.update(liste_params)
       redirect_to listes_path
     else
       render :new, status: :unprocessable_entity
@@ -47,5 +47,9 @@ class ListesController < ApplicationController
   private
     def set_liste
       @liste = current_user.listes.find(params[:id])
+    end
+
+    def liste_params
+      params.require(:liste).permit(:listname)
     end
 end

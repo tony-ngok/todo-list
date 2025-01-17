@@ -1,6 +1,14 @@
 <h2>用户登入</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <%# https://stackoverflow.com/questions/7528815/how-do-i-change-notice-alerts-class %>
+  <% if notice %>
+    <p class="notice"><%= notice %></p>
+  <% end %>
+  <% if alert %>
+    <p class="alert"><%= alert %></p>
+  <% end %>
+
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
